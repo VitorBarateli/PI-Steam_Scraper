@@ -1,5 +1,6 @@
 import scrapy
 import requests
+import re
 
 #Links:
     # https://gg.deals/
@@ -83,6 +84,9 @@ class GamesspiderSpider(scrapy.Spider):
         games = response.css("div.content > table.common-table > tbody > tr")
         for game in games:
             nome = game.css('td.game-name.left > a::text').get().strip()
+            nome = re.sub(r'\s+', ' ', nome)
+            nome = re.sub(r'®', '', nome)
+            nome = re.sub(r'™', '', nome)
             yield response.follow('https://gg.deals/games/?title=' + nome, self.parse_title, meta={'nome': nome})
 
         next_page = response.css('div.pagination > a:contains("Next")::attr(href)').get()
@@ -95,6 +99,7 @@ class GamesspiderSpider(scrapy.Spider):
         games = response.css('div.d-flex.flex-wrap.relative.list-items.shadow-box-small-lighter > div')
         game = games[0]
         titulo = game.css('a::text').get()
+
         if(titulo == nome):
             link = game.css('a::attr(href)').get()
             yield response.follow(link, self.parse_game)
