@@ -9,9 +9,6 @@ Um ecossistema de Web Scraping robusto desenvolvido em Python utilizando o frame
 - [Tecnologias Utilizadas](#%EF%B8%8F-tecnologias-utilizadas)
 - [Arquitetura dos Spiders](#%EF%B8%8F-arquitetura-dos-spiders)
 - [Instalação e Pré-requisitos](#-instalação-e-pré-requisitos)
-- [Como Executar](#-como-executar)
-- [Estrutura do Output Esperado](#-estrutura-do-output-esperado)
-- [Avisos e Boas Práticas](#-avisos-e-boas-práticas)
 
 ---
 
