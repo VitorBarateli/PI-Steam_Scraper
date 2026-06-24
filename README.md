@@ -9,6 +9,7 @@ Um ecossistema de Web Scraping robusto desenvolvido em Python utilizando o frame
 - [Tecnologias Utilizadas](#%EF%B8%8F-tecnologias-utilizadas)
 - [Arquitetura dos Spiders](#%EF%B8%8F-arquitetura-dos-spiders)
 - [Instalação e Pré-requisitos](#-instalação-e-pré-requisitos)
+- [Como Executar](#-como-executar)
 
 ---
 
@@ -56,5 +57,37 @@ O projeto divide suas responsabilidades em três agentes autônomos de coleta:
 
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/seu-usuario/steam-data-scraper.git](https://github.com/seu-usuario/steam-data-scraper.git)
+   git clone https://github.com/VitorBarateli/PI-Steam_Scraper.git
    cd steam-data-scraper
+   ```
+2. **Cria e ativa um ambiente virtual:**
+   ```bash
+   python -m venv venv
+   # No Windows:
+   venv\Scripts\activate
+   # No Linux/Mac:
+   source venv/bin/activate
+   ```
+3. **Instala as dependências necessárias:**
+   ```bash
+   pip install scrapy requests
+   ```
+
+---
+
+## 💻 Como Executar
+
+Para rodar os spiders e exportar os dados estruturados para arquivos locais (ex: .json ou .csv), executa os comandos abaixo na raiz do projeto:
+
+1. **Coletar Histórico de Atividade (Players)**
+   ```bash
+   scrapy crawl chartspider -o dados_charts.json
+   ```
+2. **Coletar Histórico de Sales da Steam**
+   ```bash
+   scrapy crawl salesspider -o dados_sales.json
+   ```
+3. **Executar o Pipeline Completo (Jogos + Preços + Hardware)**
+   ```bash
+   scrapy crawl gamesspider -o dados_jogos.json
+   ```
