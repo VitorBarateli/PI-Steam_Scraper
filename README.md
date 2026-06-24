@@ -1,55 +1,63 @@
-# Steam Data Scraper
-
-## Descrição
-Projeto de web scraping desenvolvido para coletar e integrar dados de jogos da plataforma Steam a partir de múltiplas fontes. O sistema utiliza spiders para extrair informações como número de jogadores, histórico de preços, promoções e requisitos de sistema.
-
-Os dados são obtidos de sites como SteamCharts e GG.deals, combinando diferentes informações para gerar uma visão mais completa sobre os jogos.
+# 🎮 Steam Data Scraper
+Um ecossistema de Web Scraping robusto desenvolvido em Python utilizando o framework **Scrapy** e **Requests**. O projeto foi projetado para minerar, cruzar e consolidar dados analíticos de jogos da plataforma Steam a partir de múltiplas fontes especializadas da web, unificando métricas de engajamento, precificação histórica e requisitos de hardware.
 
 ---
 
-## Tecnologias
-- Python
-- Scrapy
-- Requests
-- CSS Selectors
-- XPath
+## 📌 Sumário
+- [Fontes de Dados](#-fontes-de-dados)
+- [Funcionalidades](#-funcionalidades)
+- [Tecnologias Utilizadas](#%EF%B8%8F-tecnologias-utilizadas)
+- [Arquitetura dos Spiders](#%EF%B8%8F-arquitetura-dos-spiders)
+- [Instalação e Pré-requisitos](#-instalação-e-pré-requisitos)
+- [Como Executar](#-como-executar)
+- [Estrutura do Output Esperado](#-estrutura-do-output-esperado)
+- [Avisos e Boas Práticas](#-avisos-e-boas-práticas)
 
 ---
 
-## Funcionalidades
-- Coleta de dados dos jogos mais jogados da Steam
-- Extração de histórico de jogadores (SteamCharts)
-- Coleta de promoções e eventos (SteamBase)
-- Extração de preços históricos (GG.deals)
-- Extração de requisitos mínimos e recomendados
-- Integração de dados de múltiplas fontes
+## 🌐 Fontes de Dados
+
+O sistema realiza o cruzamento de dados extraindo informações de três ecossistemas principais:
+* **SteamCharts:** Histórico de jogadores simultâneos e tendências de atividade.
+* **GG.deals:** Histórico completo de preços, promoções e flutuação de valores no varejo digital.
+* **SteamBase:** Mapeamento cronológico de grandes eventos de descontos e sales da Steam.
 
 ---
 
-## Spiders disponíveis
+## 🚀 Funcionalidades
 
-O projeto possui múltiplos spiders, cada um com uma responsabilidade:
-
-- **chartspider**  
-  Coleta dados de jogadores simultâneos e histórico de atividade dos jogos
-
-- **salesspider**  
-  Coleta informações sobre promoções e eventos da Steam ao longo dos anos
-
-- **gamesspider**  
-  Integra dados de diferentes fontes, incluindo preços históricos, configurações de hardware e informações gerais dos jogos
+* **Mineração Híbrida (HTML + API):** Combina seletores CSS/XPath para raspagem de páginas estáticas com requisições diretas a endpoints de APIs internas das plataformas para extração de payloads JSON puros.
+* **Tratamento de Strings Avançado:** Limpeza automatizada de títulos de jogos via Expressões Regulares (`re`) para garantir casamento perfeito de chaves de busca entre diferentes sites.
+* **Extração de Requisitos de Hardware:** Parseamento fino de componentes de hardware (CPU, GPU, RAM) divididos entre configurações Mínimas e Recomendadas.
+* **Filtros Adaptativos de Preço:** Lógica interna para isolar flutuações de preços da loja oficial (Steam) e descartar anomalias ou keyshops de terceiros.
 
 ---
 
-## Como executar o projeto
+## 🛠️ Tecnologias Utilizadas
 
-### Instalação
-```bash
-pip install scrapy
-```
+* **Python 3.10+**
+* **Scrapy Framework:** Tratamento de concorrência, pipelines e gerenciamento de requisições assíncronas.
+* **Requests:** Utilizado para requisições síncronas complementares a APIs internas durante o fluxo do Spider.
+* **CSS Selectors & XPath:** Motores de navegação no DOM HTML.
+* **Regex (re):** Sanitização e normalização textual de metadados.
 
-### Execução
-```bash
-scrapy crawl chartspider
-scrapy crawl salesspider
-scrapy crawl gamesspider
+---
+
+## 🕷️ Arquitetura dos Spiders
+
+O projeto divide suas responsabilidades em três agentes autônomos de coleta:
+
+| Spider | Ponto de Partida | Dados Coletados |
+| :--- | :--- | :--- |
+| **`chartspider`** | `steamcharts.com/top` | Coleta o ranking dos jogos mais jogados e consome a API de dados históricos de contagem de players simultâneos. |
+| **`salesspider`** | `steambase.io/sales/` | Realiza paginação cronológica (2018 a 2024) capturando o nome, data de início e término de todas as promoções sazonais. |
+| **`gamesspider`** | `steamcharts.com/top` | Mapeia o topo da SteamCharts, faz o cruzamento de dados dinâmico via query parameters no `gg.deals`, extrai o histórico de preços da Steam e faz o parse dos requisitos de sistema. |
+
+---
+
+## 📦 Instalação e Pré-requisitos
+
+1. **Clone o repositório:**
+   ```bash
+   git clone [https://github.com/seu-usuario/steam-data-scraper.git](https://github.com/seu-usuario/steam-data-scraper.git)
+   cd steam-data-scraper
